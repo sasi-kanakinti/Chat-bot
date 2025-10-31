@@ -1,55 +1,86 @@
 # Chatbot (main.py)
 
-Minimal command-line chatbot that uses the OpenAI-compatible client in [main.py](main.py).
+Minimal command-line chatbot that uses an OpenAI-compatible client to send a short conversation history and receive assistant replies.
 
-Files:
-- [main.py](main.py)
-- [readme.md](readme.md)
+Files
 
-Key symbols in the code:
-- [`client`](main.py) — the OpenAI client instance used to call the chat API.
-- [`messages`](main.py) — list that holds the conversation history.
-- [`response`](main.py) — variable that holds the API response for each user input.
+- main.py — CLI chatbot implementation (uses the OpenAI Python client).
+- requirements.txt — runtime dependency (openai).
+- .gitignore — recommended ignores for the repo.
+- readme.md — this file.
 
-## Requirements
+Quick summary
+
+- The script constructs an OpenAI client (base_url set to https://openrouter.ai/api/v1) and uses model gpt-4o.
+- Conversation history is kept in the messages list and sent with each request so the assistant preserves context.
+
+Requirements
 
 - Python 3.8+
-- `openai` Python package (the script imports `OpenAI` from `openai`)
-- An API key available as the `OPENAI_API_KEY` environment variable.
+- Dependencies: see requirements.txt (openai>=1.0.0)
+- An API key available as the OPENAI_API_KEY environment variable.
 
-## Setup
+Setup
 
-1. Install dependencies:
-```sh
-pip install openai
+1. Create a virtual environment (recommended):
+   Windows PowerShell
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
 ```
 
-2. Set your API key (example for Windows PowerShell):
+2. Install dependencies:
+
+```powershell
+pip install -r requirements.txt
+```
+
+3. Set your API key (example for Windows PowerShell):
+
 ```powershell
 $env:OPENAI_API_KEY = "sk-..."
 ```
 
-The script configures the client with:
-- base URL: `https://openrouter.ai/api/v1`
-- model: `gpt-4o` (set in [main.py](main.py))
+Or Windows Command Prompt:
 
-## Usage
+```cmd
+set OPENAI_API_KEY=sk-...
+```
 
+Configuration
+
+- Default base_url is set in main.py to: https://openrouter.ai/api/v1
+- Default model used in main.py: "gpt-4o"
+- To change the model or base_url edit the client creation and the model parameter in main.py.
+
+Usage
 Run the chatbot:
-```sh
+
+```powershell
 python main.py
 ```
 
-Type your messages when prompted. Type `exit` or `quit` (or press Enter) to end the conversation.
+- Type messages at the "User:" prompt.
+- Type `exit` or `quit` (or press Enter on an empty line) to end the conversation.
 
-## Behavior
+Behavior notes
 
-- Conversation history is stored in the [`messages`](main.py) list and sent on each request.
-- Each assistant reply is appended back to [`messages`](main.py), preserving context.
-- If an exception occurs during the request, the script prints the exception message.
+- messages list starts with a system prompt (see main.py) and is appended with each user and assistant turn.
+- Each assistant reply is printed and appended to messages, preserving context for subsequent turns.
+- Errors during API calls are printed to stdout.
 
-## Notes & Troubleshooting
+Security / git tips
 
-- Ensure `OPENAI_API_KEY` is set and valid for the `base_url` you use.
-- If you receive network or authentication errors, confirm the `base_url` and API key are correct.
-- To change the model or request parameters edit [main.py](main.py).
+- Do NOT commit secrets or .env files. The provided .gitignore contains common entries (virtual env folders, .env, credentials files).
+- Keep your OPENAI_API_KEY private and rotate it if it is ever exposed.
+
+Troubleshooting
+
+- Authentication errors: verify OPENAI_API_KEY and base_url.
+- Network errors: check connectivity and firewall settings.
+- If the client package API changes, consult the installed openai package docs or update the code accordingly.
+
+License
+
+- No license file included. Add a LICENSE file if you plan to publish the project.
