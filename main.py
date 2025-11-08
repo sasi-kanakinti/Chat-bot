@@ -1,10 +1,11 @@
 from openai import OpenAI
 import os
 
-client=OpenAI(
-    base_url="https://openrouter.ai/api/v1",
-    api_key=os.environ.get("OPENAI_API_KEY")
-)
+from dotenv import load_dotenv
+load_dotenv()
+
+
+client=OpenAI()
 
 messages=[
     {
@@ -35,7 +36,7 @@ while True:
         )
 
         response=client.chat.completions.create(
-            model="gpt-4o",
+            model="openai/gpt-oss-20b:free",
             messages=messages
         )
 
