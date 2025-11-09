@@ -13,6 +13,13 @@ RUN pip install -r /app/requirements.txt
 COPY . /app
 
 COPY start.sh /app/start.sh
+
+# install dos2unix and convert start.sh to unix line endings (safer for Windows authors)
+RUN apt-get update && apt-get install -y dos2unix \
+&& dos2unix /app/start.sh \
+&& rm -rf /var/lib/apt/lists/*
+
+
 RUN chmod +x /app/start.sh
 
 RUN useradd --create-home appuser
