@@ -3,25 +3,118 @@
 <head>
   <meta charset="utf-8" />
   <title>Goodbye — DailyLife Assistant</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <style>
-    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
-           background:#f4f6fb; margin:0; display:flex; align-items:center; justify-content:center;
-           height:100vh; color:#213547; }
-    .card { background:white; border-radius:14px; padding:28px;
-            box-shadow:0 10px 30px rgba(18,38,63,0.08); max-width:720px; width:90%; text-align:center; }
-    h1 { margin:0 0 8px 0; font-size:22px; }
-    p { color:#556b7a; margin:0 0 18px 0; line-height:1.5; }
-    .actions { display:flex; gap:10px; justify-content:center; margin-top:18px; }
-    a.btn { display:inline-block; padding:10px 16px; border-radius:10px; text-decoration:none;
-            color:white; background:#4a90e2; font-weight:600; }
-    a.secondary { background:#eef3fb; color:#2b6aa3; border:1px solid #dce9fb; }
-    small { display:block; margin-top:12px; color:#98a7b3; }
+    :root {
+      --accent:#4a90e2;
+      --text:#213547;
+      --subtext:#556b7a;
+      --bg:#f4f6fb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: var(--text);
+      text-align: center;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 28px;
+      box-shadow: 0 10px 30px rgba(18,38,63,0.08);
+      max-width: 720px;
+      width: 90%;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    h1 {
+      margin: 0 0 10px 0;
+      font-size: 22px;
+    }
+
+    p {
+      color: var(--subtext);
+      margin: 0 0 18px 0;
+      line-height: 1.5;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    a.btn {
+      display: inline-block;
+      padding: 10px 16px;
+      border-radius: 10px;
+      text-decoration: none;
+      color: white;
+      background: var(--accent);
+      font-weight: 600;
+      min-width: 120px;
+      transition: background 0.2s ease;
+    }
+
+    a.btn:hover {
+      background: #3b7dd9;
+    }
+
+    a.secondary {
+      background: #eef3fb;
+      color: #2b6aa3;
+      border: 1px solid #dce9fb;
+    }
+
+    a.secondary:hover {
+      background: #d9e6f8;
+    }
+
+    small {
+      display: block;
+      margin-top: 12px;
+      color: #98a7b3;
+    }
+
+    @media (max-width: 520px) {
+      .card {
+        padding: 20px;
+        width: 92%;
+        border-radius: 12px;
+      }
+      h1 {
+        font-size: 20px;
+      }
+      p {
+        font-size: 15px;
+      }
+      .actions {
+        flex-direction: column;
+      }
+      a.btn {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="card">
-    <h1>Thanks for using DailyLife Assistant 👋</h1>
+    <h1>👋 Thanks for using DailyLife Assistant</h1>
     <p>Your session has ended. You’ll be redirected to the home page in a few seconds.</p>
 
     <div class="actions">
@@ -33,7 +126,6 @@
   </div>
 
   <script>
-    // Auto-redirect after 5 seconds
     setTimeout(() => {
       window.location.href = "/";
     }, 5000);

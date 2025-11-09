@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <title>DailyLife Assistant</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <style>
     :root{
       --accent:#4a90e2;
@@ -15,51 +15,58 @@
       --text:#213547;
     }
 
+    html,body{
+      height:100%;
+      margin:0;
+      padding:0;
+    }
+
     body{
       font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background:var(--bg);
       margin:0;
       height:100vh;
       display:flex;
-      flex-direction:column;
+      align-items:stretch;
+      justify-content:center;
     }
 
     .chat-container{
-      flex:1;
+      display:flex;
+      flex-direction:column;
+      width:100%;
       max-width:950px;
-      width:95%;
-      margin:28px auto;
+      margin:20px;
       background:var(--container);
       border-radius:12px;
       box-shadow:0 6px 20px rgba(0,0,0,0.06);
       overflow:hidden;
       border:1px solid var(--border);
-      display:flex;
-      flex-direction:column;
+      height: calc(100vh - 40px);
     }
 
     .meta{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      padding:14px 18px;
+      padding:12px 16px;
       background:var(--accent);
       color:white;
       font-weight:700;
       gap:8px;
-      border-top-left-radius:12px;
-      border-top-right-radius:12px;
     }
     .meta-left{display:flex;align-items:center;gap:10px}
     .meta-buttons{display:flex;gap:8px;align-items:center}
+
     .btn{background:#fff;color:var(--accent);border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600}
     .btn.small{padding:6px 10px;font-size:14px;border-radius:999px}
 
     .messages{
       flex:1;
-      padding:18px;
+      padding:16px;
       overflow:auto;
       background:linear-gradient(180deg,#f9f9fb,#fff);
+      -webkit-overflow-scrolling: touch;
     }
 
     .message{
@@ -97,7 +104,6 @@
       box-shadow: 0 2px 6px rgba(0,128,0,0.06);
     }
 
-    /* md-content wrapper for HTML inserted from Markdown (tables, lists etc) */
     .md-content {
       display:block;
       max-width:100%;
@@ -106,10 +112,9 @@
       padding-bottom:6px;
     }
 
-    /* table styling inside bubble (keeps it tidy and responsive) */
     .md-content table {
       border-collapse:collapse;
-      width:auto;         /* do not force full width; allow scrolling */
+      width:auto;
       max-width:100%;
       table-layout:auto;
       font-size:14px;
@@ -125,7 +130,6 @@
     }
     .md-content tr:nth-child(odd) td { background: rgba(0,0,0,0.01); }
 
-    /* Typing animation bubble */
     .typing-bubble {
       background: var(--assistant-bg);
       color: var(--text);
@@ -147,7 +151,7 @@
       display:inline-block;
       width:8px;
       height:8px;
-      background:#6b7caa; /* subtle dot color */
+      background:#6b7caa;
       border-radius:50%;
       opacity:0.2;
       transform: translateY(0);
@@ -166,61 +170,80 @@
     .input-area{
       display:flex;
       align-items:center;
-      padding:12px;
+      padding:10px 12px;
       border-top:1px solid var(--border);
       background:#fafafa;
-      gap:12px;
+      gap:10px;
+      position:sticky;
+      bottom:0;
+      z-index:5;
     }
     textarea{
       flex:1;
-      padding:12px 14px;
+      padding:10px 12px;
       border:1px solid #e1e5ee;
       border-radius:10px;
       font-size:15px;
       min-height:44px;
+      max-height:140px;
       resize:none;
       outline:none;
     }
     .help-hint{font-size:13px;color:#666;padding-left:6px}
 
-    /* Scrollbar styling */
     .messages::-webkit-scrollbar{ width:10px; }
     .messages::-webkit-scrollbar-track{ background:#f0f0f0; }
     .messages::-webkit-scrollbar-thumb{ background:#ccc;border-radius:6px; }
     .messages::-webkit-scrollbar-thumb:hover{ background:#aaa; }
 
-    @media (max-width:600px){
-      .bubble-user, .bubble-assistant { max-width:90%; font-size:14px; }
-      .meta{padding:12px}
-      .typing-bubble { max-width: 60%; }
+    @media (max-width:900px){
+      .chat-container{ margin:12px; height: calc(100vh - 24px); }
+      .meta { padding:10px 12px; }
+      .messages { padding:12px; }
+      .bubble-user, .bubble-assistant { max-width:80%; font-size:15px; }
+      .typing-bubble { max-width:45%; }
     }
+
+    @media (max-width:520px){
+      /* header stacks so buttons don't wrap awkwardly */
+      .meta{ flex-direction:column; align-items:flex-start; gap:8px; padding:10px; }
+      .meta-left{ width:100%; display:flex; justify-content:space-between; align-items:center; }
+      .meta-buttons{ width:100%; display:flex; gap:8px; justify-content:flex-end; }
+      .chat-container{ margin:8px; height: calc(100vh - 16px); border-radius:10px; }
+      .messages{ padding:10px; }
+      .bubble-user, .bubble-assistant { max-width:90%; font-size:15px; }
+      .typing-bubble { max-width:60%; }
+      .input-area{ padding:8px; gap:8px; }
+      textarea { min-height:48px; }
+      .btn.small{ padding:6px 8px; font-size:13px; }
+    }
+
   </style>
 </head>
 <body>
-  <div class="chat-container">
-    <div class="meta">
+  <div class="chat-container" role="application" aria-label="DailyLife Assistant chat">
+    <div class="meta" role="banner">
       <div class="meta-left">
         <span style="font-size:18px">💬 DailyLife Assistant</span>
         <span style="margin-left:8px;font-weight:400;font-size:13px;opacity:0.9">— Type a question, press Send</span>
       </div>
 
-      <div class="meta-buttons">
-        <button id="helpBtn" class="btn small">Help</button>
-        <button id="clearBtn" class="btn small">Clear Chat</button>
-        <button id="exitBtn" class="btn small">Exit</button>
+      <div class="meta-buttons" role="navigation" aria-label="Chat actions">
+        <button id="helpBtn" class="btn small" aria-label="Help">Help</button>
+        <button id="clearBtn" class="btn small" aria-label="Clear chat">Clear</button>
+        <button id="exitBtn" class="btn small" aria-label="Exit">Exit</button>
       </div>
     </div>
 
     <div id="messages" class="messages" aria-live="polite" aria-atomic="false"></div>
 
-    <div class="input-area">
-      <textarea id="input" rows="1" placeholder="Ask me something..."></textarea>
-      <button id="send" class="btn">Send</button>
+    <div class="input-area" role="region" aria-label="Message composer">
+      <textarea id="input" rows="1" placeholder="Ask me something..." aria-label="Message input"></textarea>
+      <button id="send" class="btn" aria-label="Send message">Send</button>
       <div class="help-hint">Tip: press Enter to send • <a id="quickHelp" href="#" style="color:var(--accent);text-decoration:none">shortcuts</a></div>
     </div>
   </div>
 
-  <!-- markdown parser + sanitizer -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
 
