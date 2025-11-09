@@ -1,86 +1,134 @@
-# Chatbot (main.py)
+# 💬 DailyLife Assistant — Flask Chatbot (OpenAI / OpenRouter)
 
-Minimal command-line chatbot that uses an OpenAI-compatible client to send a short conversation history and receive assistant replies.
+An intelligent, minimal, and responsive **AI chatbot web app** built using **Flask**, **HTML/CSS/JS**, and **OpenAI/OpenRouter API**.  
+This project features a chat-style frontend, Markdown rendering, typing animation, and Docker/Vercel deployment support.
 
-Files
+---
 
-- main.py — CLI chatbot implementation (uses the OpenAI Python client).
-- requirements.txt — runtime dependency (openai).
-- .gitignore — recommended ignores for the repo.
-- readme.md — this file.
+## 🚀 Features
 
-Quick summary
+✅ Conversational AI using OpenAI / OpenRouter API  
+✅ Beautiful and responsive chat interface (mobile + desktop)  
+✅ Markdown support (tables, lists, formatting)  
+✅ Typing animation for assistant replies  
+✅ Local chat persistence via browser storage  
+✅ “Clear Chat” and “Exit” button with goodbye page  
+✅ Fully Dockerized for easy cloud deployment (Vercel-ready)
 
-- The script constructs an OpenAI client (base_url set to https://openrouter.ai/api/v1) and uses model gpt-4o.
-- Conversation history is kept in the messages list and sent with each request so the assistant preserves context.
+---
 
-Requirements
+## 🧱 Project Structure
 
-- Python 3.8+
-- Dependencies: see requirements.txt (openai>=1.0.0)
-- An API key available as the OPENAI_API_KEY environment variable.
-
-Setup
-
-1. Create a virtual environment (recommended):
-   Windows PowerShell
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+```
+Chat-bot/
+│
+├── main.py                # Flask backend + chat API routes
+├── requirements.txt       # Python dependencies
+├── Dockerfile             # Container configuration for deployment
+├── start.sh               # Gunicorn startup script
+├── .env                   # Local environment variables (excluded from git)
+│
+├── static/
+│   └── chat.js            # Frontend chat logic (fetch, animations, localStorage)
+│
+├── templates/
+│   ├── index.html         # Main chat UI
+│   └── goodbye.html       # Exit/redirect page
+│
+└── README.md              # Project documentation
 ```
 
-2. Install dependencies:
+---
 
-```powershell
+## ⚙️ Setup (Local Development)
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/<your-username>/Chat-bot.git
+cd Chat-bot
+```
+
+### 2. Create Virtual Environment (Python 3.11)
+```bash
+python -m venv venv
+venv\Scripts\activate      # on Windows
+source venv/bin/activate   # on Mac/Linux
+```
+
+### 3. Install Dependencies
+```bash
 pip install -r requirements.txt
 ```
 
-3. Set your API key (example for Windows PowerShell):
-
-```powershell
-$env:OPENAI_API_KEY = "sk-..."
+### 4. Create `.env` File
+Create a `.env` file in the project root with:
+```bash
+OPENAI_API_KEY="your-api-key-here"
+OPENAI_BASE_URL="https://openrouter.ai/api/v1"
 ```
 
-Or Windows Command Prompt:
-
-```cmd
-set OPENAI_API_KEY=sk-...
-```
-
-Configuration
-
-- Default base_url is set in main.py to: https://openrouter.ai/api/v1
-- Default model used in main.py: "gpt-4o"
-- To change the model or base_url edit the client creation and the model parameter in main.py.
-
-Usage
-Run the chatbot:
-
-```powershell
+### 5. Run Locally
+```bash
 python main.py
 ```
+Then open: [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
-- Type messages at the "User:" prompt.
-- Type `exit` or `quit` (or press Enter on an empty line) to end the conversation.
+---
 
-Behavior notes
+## 🐳 Docker Deployment
 
-- messages list starts with a system prompt (see main.py) and is appended with each user and assistant turn.
-- Each assistant reply is printed and appended to messages, preserving context for subsequent turns.
-- Errors during API calls are printed to stdout.
+### Build the image:
+```bash
+docker build -t chatbot-flask .
+```
 
-Security / git tips
+### Run the container:
+```bash
+docker run --rm   -e OPENAI_API_KEY="your-api-key"   -e OPENAI_BASE_URL="https://openrouter.ai/api/v1"   -p 5000:5000 chatbot-flask
+```
 
-- Do NOT commit secrets or .env files. The provided .gitignore contains common entries (virtual env folders, .env, credentials files).
-- Keep your OPENAI_API_KEY private and rotate it if it is ever exposed.
+The chatbot will be available at:  
+➡️ [http://localhost:5000](http://localhost:5000)
 
-Troubleshooting
+---
 
-- Authentication errors: verify OPENAI_API_KEY and base_url.
-- Network errors: check connectivity and firewall settings.
-- If the client package API changes, consult the installed openai package docs or update the code accordingly.
+## 🌐 Deploy on Vercel
 
-License
+This project is 100% compatible with **Vercel Docker Deployments**.
 
-- No license file included. Add a LICENSE file if you plan to publish the project.
+### Steps:
+1. Push the repo to GitHub.
+2. Go to [vercel.com](https://vercel.com) → *New Project* → Import your repo.
+3. Framework preset: **Other** (not Flask).
+4. Add these environment variables:
+
+| Name | Value |
+|------|--------|
+| `OPENAI_API_KEY` | your key |
+| `OPENAI_BASE_URL` | `https://openrouter.ai/api/v1` |
+| `FLASK_SECRET` | any random string |
+| `WEB_CONCURRENCY` | 3 |
+
+5. Click **Deploy** 🎉
+
+---
+
+## 🖥️ Screenshots
+
+### 💬 Chat Interface
+![Chat Interface](https://via.placeholder.com/900x450?text=Chat+Interface)
+
+### 👋 Goodbye Page
+![Goodbye Page](https://via.placeholder.com/900x450?text=Goodbye+Page)
+
+---
+
+## 📜 License
+This project is released under the **MIT License**.  
+You can freely use, modify, and distribute it with attribution.
+
+---
+
+## ✨ Credits
+Developed by **Sasidhar Kanakinti**  
+Powered by [Flask](https://flask.palletsprojects.com/), [OpenRouter](https://openrouter.ai/), and [Vercel](https://vercel.com).

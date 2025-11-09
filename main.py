@@ -8,6 +8,8 @@ import requests
 
 load_dotenv()
 
+app = Flask(__name__)
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
