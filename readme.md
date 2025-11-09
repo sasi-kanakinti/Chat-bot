@@ -1,134 +1,124 @@
-# 💬 DailyLife Assistant — Flask Chatbot (OpenAI / OpenRouter)
+# 🧠 DailyLife Assistant Chatbot
 
-An intelligent, minimal, and responsive **AI chatbot web app** built using **Flask**, **HTML/CSS/JS**, and **OpenAI/OpenRouter API**.  
-This project features a chat-style frontend, Markdown rendering, typing animation, and Docker/Vercel deployment support.
+A simple and intelligent **AI-powered chatbot** built using **Flask**, **OpenAI API (via OpenRouter)**, and a lightweight frontend interface.
 
----
-
-## 🚀 Features
-
-✅ Conversational AI using OpenAI / OpenRouter API  
-✅ Beautiful and responsive chat interface (mobile + desktop)  
-✅ Markdown support (tables, lists, formatting)  
-✅ Typing animation for assistant replies  
-✅ Local chat persistence via browser storage  
-✅ “Clear Chat” and “Exit” button with goodbye page  
-✅ Fully Dockerized for easy cloud deployment (Vercel-ready)
+🚀 **Live Demo:** [https://chat-bot-inky-omega-98.vercel.app/](https://chat-bot-inky-omega-98.vercel.app/)
 
 ---
 
-## 🧱 Project Structure
+## 📋 Features
+
+- Conversational AI chatbot using OpenRouter's GPT models  
+- Responsive UI built with HTML, CSS, and JavaScript  
+- Markdown + HTML rendering for assistant responses  
+- Chat history persisted in local storage  
+- Clean "Goodbye" exit page  
+- Fully containerized (Dockerfile & start.sh for deployment)
+
+---
+
+## 🛠️ Tech Stack
+
+| Component | Technology |
+|------------|-------------|
+| **Frontend** | HTML5, CSS3, JavaScript (Vanilla) |
+| **Backend** | Flask (Python) |
+| **API Integration** | OpenAI API via OpenRouter |
+| **Hosting** | Vercel (Production Deployment) |
+| **Containerization** | Dockerfile with Gunicorn server |
+
+---
+
+## ⚙️ Environment Variables
+
+Create a `.env` file in the project root and add:
+
+```bash
+OPENAI_API_KEY=your_openrouter_api_key
+OPENAI_BASE_URL=https://openrouter.ai/api/v1
+WEB_CONCURRENCY=3
+```
+
+> ⚠️ Never commit your `.env` file to version control. Add it to `.gitignore`.
+
+---
+
+## ▶️ Running Locally
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/sasi-kanakinti/Chat-bot.git
+   cd Chat-bot
+   ```
+
+2. Create and activate a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate   # (Linux/macOS)
+   venv\Scripts\activate    # (Windows)
+   ```
+
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Run the Flask app:
+   ```bash
+   python main.py
+   ```
+
+5. Open your browser and visit:  
+   👉 **http://127.0.0.1:5000/**
+
+---
+
+## 🐳 Running via Docker
+
+```bash
+docker build -t chatbot-flask .
+docker run -p 5000:5000 chatbot-flask
+```
+
+---
+
+## 🧩 File Structure
 
 ```
 Chat-bot/
-│
-├── main.py                # Flask backend + chat API routes
+├── main.py                # Flask application
+├── start.sh               # Startup script for Gunicorn
 ├── requirements.txt       # Python dependencies
-├── Dockerfile             # Container configuration for deployment
-├── start.sh               # Gunicorn startup script
-├── .env                   # Local environment variables (excluded from git)
-│
-├── static/
-│   └── chat.js            # Frontend chat logic (fetch, animations, localStorage)
-│
-├── templates/
-│   ├── index.html         # Main chat UI
-│   └── goodbye.html       # Exit/redirect page
-│
+├── Dockerfile             # Docker container definition
+├── templates/             # HTML templates (index.html, goodbye.html)
+├── static/                # JavaScript and assets (chat.js, CSS)
+├── .env                   # Environment variables (excluded from git)
 └── README.md              # Project documentation
 ```
 
 ---
 
-## ⚙️ Setup (Local Development)
+## 🌐 Deployment
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/<your-username>/Chat-bot.git
-cd Chat-bot
-```
+The project is deployed using **Vercel** for Flask runtime:
 
-### 2. Create Virtual Environment (Python 3.11)
-```bash
-python -m venv venv
-venv\Scripts\activate      # on Windows
-source venv/bin/activate   # on Mac/Linux
-```
+🔗 **Live URL:** [https://chat-bot-inky-omega-98.vercel.app/](https://chat-bot-inky-omega-98.vercel.app/)
 
-### 3. Install Dependencies
+If you want to redeploy manually via CLI:
 ```bash
-pip install -r requirements.txt
+vercel --prod
 ```
-
-### 4. Create `.env` File
-Create a `.env` file in the project root with:
-```bash
-OPENAI_API_KEY="your-api-key-here"
-OPENAI_BASE_URL="https://openrouter.ai/api/v1"
-```
-
-### 5. Run Locally
-```bash
-python main.py
-```
-Then open: [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
 ---
 
-## 🐳 Docker Deployment
+## 🧠 Credits
 
-### Build the image:
-```bash
-docker build -t chatbot-flask .
-```
-
-### Run the container:
-```bash
-docker run --rm   -e OPENAI_API_KEY="your-api-key"   -e OPENAI_BASE_URL="https://openrouter.ai/api/v1"   -p 5000:5000 chatbot-flask
-```
-
-The chatbot will be available at:  
-➡️ [http://localhost:5000](http://localhost:5000)
-
----
-
-## 🌐 Deploy on Vercel
-
-This project is 100% compatible with **Vercel Docker Deployments**.
-
-### Steps:
-1. Push the repo to GitHub.
-2. Go to [vercel.com](https://vercel.com) → *New Project* → Import your repo.
-3. Framework preset: **Other** (not Flask).
-4. Add these environment variables:
-
-| Name | Value |
-|------|--------|
-| `OPENAI_API_KEY` | your key |
-| `OPENAI_BASE_URL` | `https://openrouter.ai/api/v1` |
-| `FLASK_SECRET` | any random string |
-| `WEB_CONCURRENCY` | 3 |
-
-5. Click **Deploy** 🎉
-
----
-
-## 🖥️ Screenshots
-
-### 💬 Chat Interface
-![Chat Interface](https://via.placeholder.com/900x450?text=Chat+Interface)
-
-### 👋 Goodbye Page
-![Goodbye Page](https://via.placeholder.com/900x450?text=Goodbye+Page)
+- [OpenRouter](https://openrouter.ai/) – API gateway for GPT-based models  
+- [Flask](https://flask.palletsprojects.com/) – Lightweight Python web framework  
+- [Vercel](https://vercel.com/) – Hosting and CI/CD platform
 
 ---
 
 ## 📜 License
-This project is released under the **MIT License**.  
-You can freely use, modify, and distribute it with attribution.
 
----
-
-## ✨ Credits
-Developed by **Sasidhar Kanakinti**  
-Powered by [Flask](https://flask.palletsprojects.com/), [OpenRouter](https://openrouter.ai/), and [Vercel](https://vercel.com).
+This project is open-source and available under the **MIT License**.
