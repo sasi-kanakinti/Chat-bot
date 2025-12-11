@@ -6,16 +6,13 @@ from flask_cors import CORS
 from openai import OpenAI
 import requests
 
-# Load .env
 load_dotenv()
 
-# Flask app
 app = Flask(__name__, static_folder="static", template_folder="templates")
 CORS(app)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
-# Load environment variables
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 OPENAI_BASE_URL = os.getenv("OPENAI_BASE_URL", "https://openrouter.ai/api/v1")
 
@@ -24,7 +21,6 @@ if not OPENROUTER_API_KEY:
 else:
     logging.info("OpenRouter API key loaded.")
 
-# Correct OpenRouter client setup
 client = OpenAI(
     api_key=OPENROUTER_API_KEY,
     base_url=OPENAI_BASE_URL,
@@ -52,17 +48,8 @@ def goodbye():
     return render_template("goodbye.html")
 
 
-@app.route("/health")
-def health():
-    return jsonify({"status": "ok"})
-
-
 @app.route("/chat", methods=["POST"])
 def chat():
-    """
-    Expects JSON: { "messages": [ {role, content}, ... ] }
-    Returns: { "reply": "<assistant reply>" }
-    """
     data = request.get_json(silent=True)
     if data is None:
         logging.warning("No JSON body received.")
@@ -95,6 +82,5 @@ def chat():
         return jsonify({"error": "Server error contacting model: " + str(e)}), 502
 
 
-# Run server
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
